@@ -8,7 +8,7 @@ const init = () => {
   gradientColor.addColorStop(0, "#c3a3f1");
   gradientColor.addColorStop(1, "#6414e9");
   context.fillStyle = gradientColor;
-  context.fillRect(0, 0, 200, 200);
+  context.fillRect(0, 0, 300, 300);
 };
 
 let mouseX = 0;
@@ -57,20 +57,20 @@ canvas.addEventListener(events[deviceType].down, (event) => {
   getXY(event);
   lastX = mouseX;
   lastY = mouseY;
+  event.preventDefault(); // Prevent default behavior
 });
 
 canvas.addEventListener(events[deviceType].move, (event) => {
-  if (!isTouchDevice()) {
-    event.preventDefault();
-  }
+  event.preventDefault(); // Prevent default behavior for both mouse and touch
   if (isDragged) {
     getXY(event);
     scratch(mouseX, mouseY);
   }
 });
 
-canvas.addEventListener(events[deviceType].up, () => {
+canvas.addEventListener(events[deviceType].up, (event) => {
   isDragged = false;
+  event.preventDefault(); // Prevent default behavior
 });
 
 canvas.addEventListener("mouseleave", () => {
@@ -95,5 +95,24 @@ const scratch = (x, y) => {
     isFirstScratch = false;
   }
 };
+
+// Prevent default touch behavior on the entire document
+document.body.addEventListener('touchstart', function(e) {
+  if (e.target == canvas) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.body.addEventListener('touchend', function(e) {
+  if (e.target == canvas) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.body.addEventListener('touchmove', function(e) {
+  if (e.target == canvas) {
+    e.preventDefault();
+  }
+}, { passive: false });
 
 window.onload = init();
