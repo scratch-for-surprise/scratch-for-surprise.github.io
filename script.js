@@ -4,12 +4,10 @@ let revealText = document.getElementById("reveal-text");
 let isFirstScratch = true;
 
 const init = () => {
-  let gradientColor = context.createLinearGradient(0, 0, 135, 135);
-  gradientColor.addColorStop(0, "#c3a3f1");
-  gradientColor.addColorStop(1, "#6414e9");
-  context.fillStyle = gradientColor;
-  context.fillRect(0, 0, 300, 300);
+  context.fillStyle = "rgb(218, 165, 32)"; // Set the fill color to rgb(218, 165, 32)
+  context.fillRect(0, 0, 300, 300); // Draw the filled rectangle
 };
+
 
 let mouseX = 0;
 let mouseY = 0;
