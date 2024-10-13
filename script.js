@@ -14,6 +14,8 @@ const init = () => {
 let mouseX = 0;
 let mouseY = 0;
 let isDragged = false;
+let lastX = 0;
+let lastY = 0;
 
 let events = {
   mouse: {
@@ -53,7 +55,8 @@ isTouchDevice();
 canvas.addEventListener(events[deviceType].down, (event) => {
   isDragged = true;
   getXY(event);
-  scratch(mouseX, mouseY);
+  lastX = mouseX;
+  lastY = mouseY;
 });
 
 canvas.addEventListener(events[deviceType].move, (event) => {
@@ -76,9 +79,16 @@ canvas.addEventListener("mouseleave", () => {
 
 const scratch = (x, y) => {
   context.globalCompositeOperation = "destination-out";
+  context.lineWidth = 24;
+  context.lineCap = "round";
+  context.lineJoin = "round";
   context.beginPath();
-  context.arc(x, y, 12, 0, 2 * Math.PI);
-  context.fill();
+  context.moveTo(lastX, lastY);
+  context.lineTo(x, y);
+  context.stroke();
+  
+  lastX = x;
+  lastY = y;
   
   if (isFirstScratch) {
     revealText.style.display = "block";
